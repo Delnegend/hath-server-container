@@ -1,4 +1,4 @@
-name: Container
+name: CI
 
 # The only gate: this is a fixed upstream release (HATH_VERSION) repackaged for
 # Docker, so there is nothing to unit-test — but a broken Dockerfile is a broken
@@ -20,8 +20,8 @@ permissions:
   contents: read
 
 jobs:
-  build:
-    name: Build and inspect
+  check:
+    name: Check (just check)
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:

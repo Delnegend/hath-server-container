@@ -7,7 +7,7 @@ fi
 
 # re-create credentials file
 rm -f /hath/data/client_login && echo "Old client_login file removed"
-printf "${HATH_CLIENT_ID}-${HATH_CLIENT_KEY}" >> /hath/data/client_login && echo "New client_login file created"
+printf '%s-%s' "${HATH_CLIENT_ID}" "${HATH_CLIENT_KEY}" >> /hath/data/client_login && echo "New client_login file created"
 
 exec java -jar /opt/hath/HentaiAtHome.jar \
     --cache-dir=/hath/cache               \

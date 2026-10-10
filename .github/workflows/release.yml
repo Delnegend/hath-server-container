@@ -193,8 +193,8 @@ jobs:
             org.opencontainers.image.version=${{ needs.prepare.outputs.version }}
             org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
             org.opencontainers.image.revision=${{ github.sha }}
-          cache-from: type=registry,ref=${{ env.IMAGE }}:buildcache
-          cache-to: type=registry,ref=${{ env.IMAGE }}:buildcache,mode=max,image-manifest=true
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
       # The old CI gate's `Build and inspect` assertions, kept verbatim: the
       # jar name and the state directories are what a release bump could
       # silently rename, so fail if any of them is missing. Published builds

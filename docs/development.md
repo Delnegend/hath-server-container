@@ -31,6 +31,12 @@ gh workflow run release.yml -f target=tag -f ref=v1.2.3   # rebuild + publish an
 The version is never typed by hand: it comes from the Conventional Commits
 since the last tag (`feat:` → minor, `fix:` → patch, and so on). A week whose
 commits are all `docs:`/`ci:`/`chore:` releases nothing, and the run ends
+green.
+
+Two versions coexist, and they mean different things:
+
+- The **release tag** (`v1.2.3`) names this repackaging — the Dockerfile,
+  entrypoint, and compose wiring around the client.
 - `VERSION` / `HATH_VERSION` (`1.6.4`) names the **upstream client blob**
   inside the image, pinned in `docker-compose.yml` and the `build` recipe.
 

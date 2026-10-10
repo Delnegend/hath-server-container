@@ -39,7 +39,11 @@ docker logs -f hath
 | `Dockerfile` | Two-stage build: fetch + unzip the client, then a JRE image |
 | `start.sh` | Entrypoint: applies umask, writes `client_login`, runs the client |
 
-`just build` builds `hath` locally; `just save` exports it to `hath.tar.gz`.
+## Releases
+
+- Weekly `new-tag` runs cut a semver tag, build `ghcr.io/delnegend/hath-server-container:<version>` and `:latest`, and attach `hath.tar.gz` to the release.
+- `VERSION` holds the repackaging version (`1.6.4` today); the client blob it wraps is pinned separately as `HATH_VERSION`.
+- `commit` target test-builds any commit and uploads the image tarball without publishing anything.
 
 ## License
 

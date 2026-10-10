@@ -36,9 +36,8 @@ jobs:
           load: true
           tags: hath:smoke
           build-args: HATH_VERSION=1.6.4
-
-      # The jar name and the start script are the two things a release bump
-      # could silently rename; fail if either is missing.
+      # The jar name and the state directories are what a release bump
+      # could silently rename; fail if any of them is missing.
       - name: Assert the entrypoint files exist
         run: |
           docker run --rm --entrypoint sh hath:smoke -c '
@@ -46,7 +45,10 @@ jobs:
             test -x /opt/hath/start.sh
           '
 
-      - name: Assert the download lands where start.sh expects it
+      - name: Assert the state directories exist
         run: |
-          docker inspect hath:smoke --format '{{json .Config.Volumes}}' \
-            | grep -q '/hath/data' || exit 1
+          docker run --rm --entrypoint sh hath:smoke -c '
+            for d in cache data download log tmp; do
+              test -d "/hath/$d" || exit 1
+            done
+          '

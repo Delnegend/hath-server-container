@@ -1,20 +1,14 @@
 name: CI
 
-# The only gate is `just check` (workflow lint + entrypoint script lint). This
-# is a fixed upstream release (HATH_VERSION) repackaged for Docker, so there is
-# nothing to unit-test. Image builds moved to the release workflow's `commit`
-# target so CI stays build-free.
+# Fixed upstream release repackaged for Docker: nothing here to unit-test.
 on:
   pull_request:
     branches: [main]
   push:
     branches: [main]
   workflow_dispatch:
-  # The release workflow calls the whole file as its gate: all jobs below
-  # must pass before anything ships.
   workflow_call:
 
-# Static, finite, no cache reuse between runs at this cadence.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -33,9 +27,7 @@ jobs:
       - name: Run verification
         run: just check
 
-  # Security scans. They need Docker images and registry egress, so they only run
-  # on GitHub-hosted runners. None of them is a required check — the gate stays
-  # `Check (just check)`. No OSV job: this repo has no package manifest.
+  # No OSV job: this repo has no package manifest.
   scan:
     name: Scan
     uses: Delnegend/actions/.github/workflows/scan.yml@6b0ff42cc9e8937cd1b37faebccd093fc6c68a86 # v1

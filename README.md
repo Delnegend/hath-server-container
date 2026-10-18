@@ -1,6 +1,6 @@
 <div align="center">
 
-# H@H Docker
+# H@H Server Container
 
 **Run the Hentai@Home client as a set-and-forget Docker service: Java runtime included, your cache, credentials and downloads mounted from the host.**
 

@@ -136,7 +136,10 @@ jobs:
           cache-to: type=gha,mode=max
       # The jar name and state directories are what a release bump could
       # silently rename: fail if any is missing.
+      # Test builds load the image locally instead of pushing it, so there
+      # is nothing to pull: inspect the local store as-is.
       - name: Pull image for inspection
+        if: needs.prepare.outputs.publish == 'true'
         env:
           IMAGE: ${{ env.IMAGE }}
           VERSION: ${{ needs.prepare.outputs.version }}
@@ -168,9 +171,11 @@ jobs:
         env:
           REF: ${{ needs.prepare.outputs.ref }}
           VERSION: ${{ needs.prepare.outputs.version }}
+          PUBLISH: ${{ needs.prepare.outputs.publish }}
         run: |
           set -euo pipefail
-          docker pull "$IMAGE:$VERSION"
+          # Test builds already hold the image locally; only pulls fetch it.
+          if [ "$PUBLISH" = "true" ]; then docker pull "$IMAGE:$VERSION"; fi
           docker tag "$IMAGE:$VERSION" hath
           just save
           ls -lh hath.tar.gz

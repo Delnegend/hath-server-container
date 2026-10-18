@@ -40,10 +40,8 @@ Two versions coexist, and they mean different things:
 `HATH_VERSION` in `docker-compose.yml` (and the `justfile` build recipe
 default) in a normal commit, which the next ship run then releases.
 
-Each release ships:
-
-- `ghcr.io/delnegend/hath-server-container:<version>` and `:latest`
-- `hath.tar.gz` — the same image as a portable tarball (`docker load < hath.tar.gz`)
+Each release ships `ghcr.io/delnegend/hath-server-container:<version>` and
+`:latest`.
 
 A weekly run fires every Sunday at 00:00 UTC; the repository is in
 maintenance mode, so dependency updates and client bumps are the only

@@ -42,7 +42,7 @@ docker logs -f hath
 
 ## Releases
 
-- Weekly runs cut a semver tag, build `ghcr.io/delnegend/hath-server-container:<version>` and `:latest`, and attach `hath.tar.gz` to the release.
+- Weekly runs cut a semver tag and build `ghcr.io/delnegend/hath-server-container:<version>` and `:latest`.
 - `VERSION` holds the repackaging version (`1.6.4` today); the client blob it wraps is pinned separately as `HATH_VERSION`.
 - A run dispatched with a commit SHA test-builds it without publishing anything. Dispatch modes are shared ([Delnegend/actions](https://github.com/Delnegend/actions/blob/main/README.md)).
 

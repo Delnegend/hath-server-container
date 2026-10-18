@@ -166,27 +166,6 @@ jobs:
             done
           '
 
-      # `just save` exports the local `hath` tag, so retag first.
-      - name: Export image tarball
-        env:
-          REF: ${{ needs.prepare.outputs.ref }}
-          VERSION: ${{ needs.prepare.outputs.version }}
-          PUBLISH: ${{ needs.prepare.outputs.publish }}
-        run: |
-          set -euo pipefail
-          # Test builds already hold the image locally; only pulls fetch it.
-          if [ "$PUBLISH" = "true" ]; then docker pull "$IMAGE:$VERSION"; fi
-          docker tag "$IMAGE:$VERSION" hath
-          just save
-          ls -lh hath.tar.gz
-
-      - name: Upload image tarball
-        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
-        with:
-          name: hath-image-${{ needs.prepare.outputs.ref }}
-          path: hath.tar.gz
-          if-no-files-found: error
-
       - name: Publish the release
         if: needs.prepare.outputs.publish == 'true'
         uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3
@@ -202,7 +181,3 @@ jobs:
 
             Or `latest` for the most recent release. The git tag `${{ needs.prepare.outputs.ref }}`
             is the same image, named the way git wants it.
-
-            `hath.tar.gz` (attached below) is the same image as a portable
-            tarball: `docker load < hath.tar.gz`.
-          files: hath.tar.gz

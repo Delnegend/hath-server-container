@@ -15,17 +15,13 @@ release workflow.
 
 ## Release procedure
 
-Releases are cut by `.github/workflows/release.yml`, which takes a `target`:
-
-| Target | What it does |
-| --- | --- |
-| `new-tag` *(default, and what the weekly cron uses)* | Gates on `just check`, derives the next version from Conventional Commits, bumps `VERSION` via `just bump`, pushes the commit and tag together, then builds and publishes |
-| `tag` | Rebuilds an existing tag and publishes its release — the repair path |
-| `commit` | Test-builds a commit: the image loads locally and `hath.tar.gz` lands in the Actions run, nothing is published |
+Releases are cut by `.github/workflows/release.yml`, which takes an optional
+`ref`: empty ships, a version tag rebuilds, and a commit SHA test-builds
+without publishing ([dispatch modes](https://github.com/Delnegend/actions/blob/main/README.md)).
 
 ```bash
-gh workflow run release.yml -f target=commit   # test-build latest commit, publish nothing
-gh workflow run release.yml -f target=tag -f ref=v1.2.3   # rebuild + publish an existing tag
+gh workflow run release.yml -f ref=<SHA>   # test-build a commit, publish nothing
+gh workflow run release.yml -f ref=v1.2.3   # rebuild + publish an existing tag
 ```
 
 The version is never typed by hand: it comes from the Conventional Commits
@@ -42,7 +38,7 @@ Two versions coexist, and they mean different things:
 
 `just bump` writes only `VERSION`; moving the client itself means changing
 `HATH_VERSION` in `docker-compose.yml` (and the `justfile` build recipe
-default) in a normal commit, which the next `new-tag` run then releases.
+default) in a normal commit, which the next ship run then releases.
 
 Each release ships:
 

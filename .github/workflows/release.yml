@@ -123,6 +123,7 @@ jobs:
           file: ./Dockerfile
           push: ${{ needs.prepare.outputs.publish == 'true' }}
           load: ${{ needs.prepare.outputs.publish != 'true' }}
+          outputs: ${{ needs.prepare.outputs.publish == 'true' && 'type=image,compression=zstd,compression-level=4' || '' }}
           build-args: HATH_VERSION=${{ env.HATH_VERSION }}
           tags: |
             ${{ env.IMAGE }}:${{ needs.prepare.outputs.version }}

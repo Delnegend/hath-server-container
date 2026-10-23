@@ -37,7 +37,7 @@ Two versions coexist, and they mean different things:
   inside the image, pinned in `docker-compose.yml` and the `build` recipe.
 
 `just bump` writes only `VERSION`; moving the client itself means changing
-`HATH_VERSION` in `docker-compose.yml` (and the `justfile` build recipe
+`HATH_VERSION` in `docker-compose.yml` (and the `.justfile` build recipe
 default) in a normal commit, which the next ship run then releases.
 
 Each release ships `ghcr.io/delnegend/hath-server-container:<version>` and

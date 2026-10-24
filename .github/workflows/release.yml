@@ -22,9 +22,6 @@ concurrency:
 permissions:
   contents: write
 
-env:
-  # Lowercase image repository required by buildx.
-  IMAGE: ghcr.io/delnegend/hath-server-container
 
 jobs:
   gate:
@@ -77,7 +74,6 @@ jobs:
     if: needs.prepare.outputs.skip != 'true'
     runs-on: ubuntu-latest
     permissions:
-      contents: write
       packages: write
     steps:
       - name: Checkout repository
@@ -102,7 +98,6 @@ jobs:
         id: build
         uses: Delnegend/actions/docker-build-push@62064acc9dce2872175e85b3b2e1c2295cd1bee7 # v1
         with:
-          image: ${{ env.IMAGE }}
           version: ${{ needs.prepare.outputs.version }}
           publish: ${{ needs.prepare.outputs.publish }}
           build-args: HATH_VERSION=${{ env.HATH_VERSION }}
@@ -113,13 +108,13 @@ jobs:
       - name: Pull image for inspection
         if: needs.prepare.outputs.publish == 'true'
         env:
-          IMAGE: ${{ env.IMAGE }}
+          IMAGE: ${{ steps.build.outputs.image }}
           VERSION: ${{ needs.prepare.outputs.version }}
         run: docker pull "$IMAGE:$VERSION"
 
       - name: Assert the entrypoint files exist
         env:
-          IMAGE: ${{ env.IMAGE }}
+          IMAGE: ${{ steps.build.outputs.image }}
           VERSION: ${{ needs.prepare.outputs.version }}
         run: |
           docker run --rm --entrypoint sh "$IMAGE:$VERSION" -c '
@@ -129,7 +124,7 @@ jobs:
 
       - name: Assert the state directories exist
         env:
-          IMAGE: ${{ env.IMAGE }}
+          IMAGE: ${{ steps.build.outputs.image }}
           VERSION: ${{ needs.prepare.outputs.version }}
         run: |
           docker run --rm --entrypoint sh "$IMAGE:$VERSION" -c '
@@ -143,6 +138,5 @@ jobs:
         with:
           ref: ${{ needs.prepare.outputs.ref }}
           publish: ${{ needs.prepare.outputs.publish }}
-          download: "false"
-          image: ${{ env.IMAGE }}
+          container: true
           version: ${{ needs.prepare.outputs.version }}

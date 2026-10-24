@@ -20,22 +20,6 @@ check:
     fi
     shellcheck start.sh
 
-# Bump the maintainer-owned release version. The client blob itself is frozen
-# (HATH_VERSION in docker-compose.yml); VERSION is what `new-tag` moves.
-bump version:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    NEW="{{version}}"
-    # No-op signal is worktree content, not `git diff` (which ignores untracked
-    # files) and not porcelain (which never shows untracked as unchanged).
-    OLD="$(cat VERSION 2>/dev/null || true)"
-    if [ "$NEW" = "$OLD" ]; then
-        echo "error: bump $NEW is a no-op (VERSION unchanged)" >&2
-        exit 1
-    fi
-    printf '%s\n' "$NEW" > VERSION
-    git diff -- VERSION
-
 # Language-agnostic version contract for Delnegend/actions/resolve-release.
 version action ver="":
     #!/usr/bin/env bash
@@ -44,16 +28,16 @@ version action ver="":
       get)
         cat VERSION
         ;;
-      bump)
-        [ -n "{{ver}}" ] || { echo "usage: just version bump X.Y.Z" >&2; exit 1; }
+      set|bump)
+        [ -n "{{ver}}" ] || { echo "usage: just version set X.Y.Z" >&2; exit 1; }
         NEW="{{ver}}"
         OLD="$(cat VERSION 2>/dev/null || true)"
         if [ "$NEW" = "$OLD" ]; then
-          echo "error: bump $NEW is a no-op (VERSION unchanged)" >&2
+          echo "error: set $NEW is a no-op (VERSION unchanged)" >&2
           exit 1
         fi
         printf '%s\n' "$NEW" > VERSION
         git diff -- VERSION
         ;;
-      *) echo "usage: just version get|bump X.Y.Z" >&2; exit 1 ;;
+      *) echo "usage: just version get|set X.Y.Z" >&2; exit 1 ;;
     esac

@@ -1,11 +1,9 @@
 #!/bin/sh
 
-# set umask accordingly
 if [ "${UMASK:-UNSET}" != "UNSET" ]; then
     umask "$UMASK"
 fi
 
-# re-create credentials file
 rm -f /hath/data/client_login && echo "Old client_login file removed"
 printf '%s-%s' "${HATH_CLIENT_ID}" "${HATH_CLIENT_KEY}" >> /hath/data/client_login && echo "New client_login file created"
 

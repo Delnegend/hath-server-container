@@ -10,7 +10,7 @@ just save    # docker save hath | gzip > hath.tar.gz
 
 `just check` is the CI gate (`Check (just check)` in `.github/workflows/ci.yml`);
 the three scan jobs (Gitleaks, Semgrep, Trivy) report without blocking.
-The image is never built in CI — only by `just build` locally and by the
+The image is never built in CI, only by `just build` locally and by the
 release workflow.
 
 ## Release procedure
@@ -31,7 +31,7 @@ green.
 
 Two versions coexist, and they mean different things:
 
-- The **release tag** (`v1.2.3`) names this repackaging — the Dockerfile,
+- The **release tag** (`v1.2.3`) names this repackaging: the Dockerfile,
   entrypoint, and compose wiring around the client.
 - `VERSION` / `HATH_VERSION` (`1.6.4`) names the **upstream client blob**
   inside the image, pinned in `docker-compose.yml` and the `build` recipe.

@@ -8,7 +8,7 @@ RUN wget -O /tmp/hath-$HATH_VERSION.zip https://repo.e-hentai.org/hath/HentaiAtH
     mkdir -p /hath_extracted && \
     unzip /tmp/hath-$HATH_VERSION.zip -d /hath_extracted
 
-FROM ibm-semeru-runtimes:open-25-jre
+FROM docker.io/library/ibm-semeru-runtimes:open-25-jre
 
 LABEL maintainer="Delnegend <kien@delnegend.com>"
 

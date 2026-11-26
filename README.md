@@ -4,9 +4,9 @@
 
 **Run the Hentai@Home client as a set-and-forget Docker service: Java runtime included, your cache, credentials and downloads mounted from the host.**
 
-[![CI](https://img.shields.io/github/actions/workflow/status/Delnegend/hath-server-container/ci.yml?branch=main&style=flat-square)](https://github.com/Delnegend/hath-server-container/actions)
-[![Release](https://img.shields.io/github/v/release/Delnegend/hath-server-container?style=flat-square)](https://github.com/Delnegend/hath-server-container/releases)
-[![License](https://img.shields.io/badge/license-MIT-blue?style=flat-square)](LICENSE)
+[![CI](https://badgers.space/github/checks/Delnegend/hath-server-container/main?corner_radius=0&label=build)](https://github.com/Delnegend/hath-server-container/actions)
+[![Release](https://badgers.space/github/release/Delnegend/hath-server-container?corner_radius=0&color=ea7233)](https://github.com/Delnegend/hath-server-container/releases)
+[![License](https://badgers.space/badge/license/MIT/007ec6?corner_radius=0)](LICENSE)
 
 </div>
 
